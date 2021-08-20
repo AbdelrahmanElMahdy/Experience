@@ -1,0 +1,61 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static '/CSS/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">Experience</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {% comment %} <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "" %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "" %}">Consults</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url "" %}">Doctors</a>
+                </li>
+                 <li class="nav-item active">
+                    <a class="nav-link" href="{% url "" %}">Create Appointment</a>
+                </li>
+                {% if user.type == "DOCTOR"%}
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{% url '' %}">Edit Profile</a>
+                  </li>
+                {% endif %}
+                <li class="nav-item active">
+                  {% if user.is_authenticated%}
+                    <a class="nav-link" href ="{% url 'logout' %}">Log Out </a>
+                  {% else %}
+                    <a class="nav-link" href ="{% url 'login' %}">Log In </a>
+                  {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div> {% endcomment %}
+</nav>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
