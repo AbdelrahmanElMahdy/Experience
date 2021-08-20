@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 class UserManager(BaseUserManager):
-    def create_user(self,email,password=None):
+    def create_user(self,email,username,password=None):
         if not email:
             raise ValueError("you must provid email address")
 
@@ -15,16 +15,16 @@ class UserManager(BaseUserManager):
         )
         
         user.set_password(password)
+        user.username=username
         user.save(using=self._db)
         
         return user
     
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email,username, password=None):
 
-        user=self.create_user(email=email,password=password)
+        user=self.create_user(email=email, username=username, password=password)
         user.is_admin=True
-        user.is_stuff=True
-
+        user.is_stuff=True        
         user.save(using=self._db)
         
         return user
@@ -36,15 +36,35 @@ class User(AbstractUser):
         max_length=254,
         unique=True
     )
+
+    username=models.CharField(
+        verbose_name="Username",
+        max_length=50,
+        unique=True,
+        blank=False
+    )
+    
+    first_name=models.CharField(
+        verbose_name="first name",
+        max_length=50,
+        blank=True
+    )
+    last_name=models.CharField(
+        verbose_name="last name",
+        max_length=50,
+        blank=True
+    )
+    date_created=models.DateField(
+        verbose_name="Date Created",
+        auto_now=True, 
+        auto_now_add=False)
+
     is_active=models.BooleanField(default=True)
     is_stuff=models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
-    
-
-
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     objects= UserManager()
     @property
