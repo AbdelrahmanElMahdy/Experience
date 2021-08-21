@@ -28,10 +28,8 @@ def createAccount(request):
                 'Token':Token.objects.get(user=account).key,
                 'date_created':account.date_created
                 }
-            print('valid')
 
         else:
-            print('unvalid')
             response['errors']=serializer.errors
 
     else:

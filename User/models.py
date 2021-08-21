@@ -10,6 +10,9 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("you must provid email address")
 
+        if not username:
+            raise ValueError("you must provid username")
+
         user=self.model(
             email=self.normalize_email(email),
         )
