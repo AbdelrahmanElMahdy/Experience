@@ -5,7 +5,7 @@ Experience Web Application is here! to make it easy to share your experience wit
 * encourage these foundation to start developing 
 
 # DataBase flowchart
-![DBflowchart](statics/Dbflowchart.png)
+![DBflowchart](statics/DBflowchart.png)
 
 
 
