@@ -4,7 +4,7 @@ Experience Web Application is here! to make it easy to share your experience wit
 * try not to make the same mistake as he made 
 * encourage these foundation to start developing 
 
-# DataBase flowchart
+# DataBase EER Diagram
 ![DBflowchart](statics/DBflowchart.png)
 
 
