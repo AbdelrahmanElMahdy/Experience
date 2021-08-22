@@ -6,6 +6,7 @@ Experience Web Application is here! to make it easy to share your experience wit
 
 # DataBase EER Diagram
 ![DBflowchart](statics/DBflowchart.png)
+*ERR Driagram*
 
 
 
