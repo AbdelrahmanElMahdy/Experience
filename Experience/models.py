@@ -6,6 +6,7 @@ from django.utils.translation import gettext as _
 # Create your models here.
 
 class Experience(models.Model):
+    id = models.BigAutoField(primary_key=True)
     author=models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         verbose_name="Auther", 
@@ -29,6 +30,7 @@ class Experience(models.Model):
         return self.story 
 
 class Rate(models.Model):
+    id = models.BigAutoField(primary_key=True)
     feedback_choices = (
         ("suggest", _("SUGGEST")),
         ("compliment", _("COMPLIMENT")),
