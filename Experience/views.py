@@ -7,12 +7,12 @@ from rest_framework import status
 
 
 from .models import Experience
-from .serializers import CreatExpSerializer
+from .serializers import CreatExpSerializer,ListExpSerializer, UpdateExpSerializer
 # Create your views here.
 
 class ExpList(generics.ListAPIView):
     queryset=Experience.objects.all()
-    serializer_class=CreatExpSerializer
+    serializer_class=ListExpSerializer
     permission_classes = [IsAuthenticated]
 
 class CreateExp(generics.CreateAPIView):
@@ -43,4 +43,32 @@ class RemoveExp(generics.DestroyAPIView):
         
         else:
             return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
+
+# class DetailExp(generics.)
+
+class ExpUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class=UpdateExpSerializer
+
+    def get_queryset(self):
+        return Experience.objects.filter(pk=self.kwargs['pk'])
+             
+
+    
+    def update(self, request, *args, **kwargs):
+        try:
+            instance=self.get_queryset()[0]
+        except:
+            return Response("Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
+        if self.request.user==instance.author:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(instance)
             
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+        else:
+            return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
+
