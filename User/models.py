@@ -65,7 +65,8 @@ class User(AbstractUser):
     is_active=models.BooleanField(default=True)
     is_stuff=models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-
+    is_verified=models.BooleanField(verbose_name="is verified",default=False)
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -73,6 +74,10 @@ class User(AbstractUser):
     @property
     def is_staff(self):
         return self.is_admin
+    
+    def verify(self):
+        self.is_verified=True
+    
     
     def has_module_perms(self, app_label):
        return self.is_admin
