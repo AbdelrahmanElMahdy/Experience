@@ -31,7 +31,7 @@ class Experience(models.Model):
 
 class Rate(models.Model):
     id = models.BigAutoField(primary_key=True)
-    feedback_choices = (
+    category_choices = (
         ("suggest", _("SUGGEST")),
         ("compliment", _("COMPLIMENT")),
         ("complaint", _("COMPLAINT")),
@@ -53,14 +53,14 @@ class Rate(models.Model):
         max_length=50, 
         choices=rate_choices)
 
-    Rate_category = models.CharField(
+    rate_category = models.CharField(
         verbose_name="Rate Category", 
-        choices=feedback_choices, 
+        choices=category_choices, 
         max_length=50, 
         blank=True
     )
 
-    feedback_message = models.TextField(
+    message = models.TextField(
         verbose_name="Message", 
         max_length=250, 
         blank=True
@@ -72,6 +72,6 @@ class Rate(models.Model):
         on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.Rate_category
+        return self.rate_category
 
 

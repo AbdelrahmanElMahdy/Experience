@@ -6,8 +6,10 @@ from rest_framework.permissions import IsAdminUser,IsAuthenticated,AllowAny
 from rest_framework import status
 
 
-from .models import Experience
-from .serializers import CreatExpSerializer,ListExpSerializer, UpdateExpSerializer
+from .models import Experience,Rate
+from .serializers import (CreatExpSerializer,ListExpSerializer,
+                          UpdateExpSerializer,ExpRateSerializer,
+                          CreateRateSerializer,UpdateRateSerializer)
 # Create your views here.
 
 class ExpList(generics.ListAPIView):
@@ -43,8 +45,6 @@ class RemoveExp(generics.DestroyAPIView):
         
         else:
             return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
-
-# class DetailExp(generics.)
 
 class ExpUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]

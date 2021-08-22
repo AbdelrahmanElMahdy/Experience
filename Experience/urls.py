@@ -1,5 +1,5 @@
 from django.urls import path,include
-from .views import ExpList,CreateExp,RemoveExp,ExpUpdate
+from .views import ExpList,CreateExp,RemoveExp,ExpUpdate,ExpRateList,CreateRate,RemoveRate,RateUpdate
 
 app_name="experience"
 
