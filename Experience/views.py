@@ -72,3 +72,18 @@ class ExpUpdate(generics.UpdateAPIView):
         else:
             return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
 
+#list all rate for specific experience
+
+class ExpRateList(generics.ListAPIView):
+    serializer_class=ExpRateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset=Rate.objects.filter(
+                experience=Experience.objects.filter(
+                           id=self.kwargs['pk'])[0]
+                )
+        return queryset
+
+
+
