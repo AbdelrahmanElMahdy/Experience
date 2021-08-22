@@ -85,5 +85,57 @@ class ExpRateList(generics.ListAPIView):
                 )
         return queryset
 
+class CreateRate(generics.CreateAPIView):
+    queryset=Rate.objects.all()
+    serializer_class=CreateRateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self,serializer):
+        serializer.save(author=self.request.user,exPk=self.kwargs["pk"])
+
+class RateUpdate(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class=UpdateRateSerializer
+
+    def get_queryset(self):
+        return Rate.objects.get(id=self.kwargs['pk'])
+             
+    def update(self, request, *args, **kwargs):
+        try:
+            instance=self.get_queryset()
+        except:
+            return Response("Not Found", status=status.HTTP_404_NOT_FOUND)
+
+
+        if self.request.user==instance.author:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(instance)
+            
+            return Response(serializer.data,status=status.HTTP_200_OK)
+
+        else:
+            return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
+
+
+class RemoveRate(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        rateInstance=Rate.objects.get(id=self.kwargs['pk'])
+        return rateInstance
+    
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance=self.get_queryset()
+        except:
+            return Response("Not Found", status=status.HTTP_404_NOT_FOUND)
+
+        
+        if self.request.user==instance.author:
+            instance.delete()
+            return Response("Deleted",status=status.HTTP_200_OK)
+        else:
+            return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
 
 
