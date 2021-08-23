@@ -78,6 +78,8 @@ class User(AbstractUser):
     def verify(self):
         self.is_verified=True
     
+    def __str__(self):
+        return self.username
     
     def has_module_perms(self, app_label):
        return self.is_admin
