@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
@@ -58,7 +59,7 @@ def send_activation(user):
     send_mail(
         subject='Verify email',
         message=f'please click on the link to verify the account with username{user.username}\
-                  http://127.0.0.1:8000/user/{user.username}/verify/',
+                  {settings.CURRENT_DOMAIN}/user/{user.username}/verify/',
         from_email='a.b.mahdey@gmail.com',
         recipient_list=[f'{user.email}'],
         fail_silently=False)
@@ -70,4 +71,5 @@ def activate(request,username):
     user.verify()
     user.save()
 
-    return Response({"Verified"})
+#     return Response({"Verified"})
+    return HttpResponse("verified")
