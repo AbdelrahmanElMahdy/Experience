@@ -22,54 +22,59 @@ def index(request):
 @api_view(['GET', 'POST'])
 @permission_classes([permissions.AllowAny])
 def createAccount(request):
-    serializer=CreateUserSerializer(data=request.data)
-    response={}
+    try:
+        serializer=CreateUserSerializer(data=request.data)
+        response={}
 
-    if request.method=="POST":
-        if serializer.is_valid():
-            account=serializer.save()
-            
-            send_activation(account)
-            
-            response['account_details']={
-                'email':account.email,
-                'Token':Token.objects.get(user=account).key,
-                'date_created':account.date_created
-                }
+        if request.method=="POST":
+            if serializer.is_valid():
+                account=serializer.save()
+                
+                send_activation(account)
+                
+                response['account_details']={
+                    'email':account.email,
+                    'Token':Token.objects.get(user=account).key,
+                    'date_created':account.date_created
+                    }
+
+            else:
+                response['errors']=serializer.errors
 
         else:
-            response['errors']=serializer.errors
-
-    else:
-        response["required fields"]=[
-            "email",
-            "username"
-            "password",
-            "password2",
+            response["required fields"]=[
+                "email",
+                "username"
+                "password",
+                "password2",
+                ]
+            response["optional fields"]=[
+                "first_name",
+                "lasr_name"
             ]
-        response["optional fields"]=[
-            "first_name",
-            "lasr_name"
-        ]
-        
-    return Response( response )
-    
+            
+        return Response( response )
+    except Exception as error :
+        return Response( {"status":"error","error":str(error)} )
 
 def send_activation(user):    
-    send_mail(
-        subject='Verify email',
-        message=f'please click on the link to verify the account with username{user.username}\
-                  {settings.CURRENT_DOMAIN}/user/{user.username}/verify/',
-        from_email='a.b.mahdey@gmail.com',
-        recipient_list=[f'{user.email}'],
-        fail_silently=False)
-
+    try:
+        send_mail(
+            subject='Verify email',
+            message=f'please click on the link to verify the account with username{user.username}\
+                    {settings.CURRENT_DOMAIN}/user/{user.username}/verify/',
+            from_email='a.b.mahdey@gmail.com',
+            recipient_list=[f'{user.email}'],
+            fail_silently=False)
+    except Exception as error:
+        raise error
 
 @api_view(['GET', 'POST'])
 def activate(request,username):
-    user=User.objects.get(username=username)
-    user.verify()
-    user.save()
-
-#     return Response({"Verified"})
-    return HttpResponse("verified")
+    try:
+        user=User.objects.get(username=username)
+        user.verify()
+        user.save()
+    except Exception as error :
+        return Response( {"status":"error","error":str(error)} )
+    return Response({"Verified"})
