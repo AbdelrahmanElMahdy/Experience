@@ -1,6 +1,0 @@
-{
-    "git.ignoreLimitWarning": true,
-    "python.autoComplete.extraPaths": ["/home/mahdy/WORK/Projects/ExperienceWEB"],
-    "python.pythonPath":"/home/mahdy/miniconda3/envs/hpa/bin/python"
-
-}
