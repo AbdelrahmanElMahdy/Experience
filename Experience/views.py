@@ -17,6 +17,11 @@ class ExpList(generics.ListAPIView):
     serializer_class=ListExpSerializer
     permission_classes = [IsAuthenticated]
 
+class ExpById(generics.RetrieveAPIView):
+    queryset=Experience.objects.all()
+    serializer_class=ListExpSerializer
+    permission_classes = [IsAuthenticated]
+
 class CreateExp(generics.CreateAPIView):
     queryset=Experience.objects.all()
     serializer_class=CreatExpSerializer
