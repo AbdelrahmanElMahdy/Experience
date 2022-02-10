@@ -47,7 +47,8 @@ class RemoveExp(generics.DestroyAPIView):
         
         if self.request.user==instance.author:
             instance.delete()
-        
+            return Response("Deleted",status=status.HTTP_200_OK)
+
         else:
             return Response("unauthorized operation",status=status.HTTP_401_UNAUTHORIZED)
 
