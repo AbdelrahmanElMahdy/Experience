@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.forms import ValidationError
+from django.shortcuts import get_object_or_404, render
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -56,6 +57,24 @@ def createAccount(request):
         return Response( response )
     except Exception as error :
         return Response( {"status":"error","error":str(error)} )
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def change_password(request):
+    try:
+        user = request.user    
+        
+        if (user.check_password(request.data["old_password"])):
+            user.set_password(request.data["new_password"])
+            user.save()
+        
+        else: raise ValidationError("password does not match ")
+
+        return Response( {"status":"success","message":"updated successfully "} )
+    
+    except Exception as error :
+        return Response( {"status":"error","error":str(error)} )
+
 
 def send_activation(user):    
     try:
