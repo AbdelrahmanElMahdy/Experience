@@ -12,8 +12,6 @@ urlpatterns = [
     path('signup/', createAccount ,name="sinup"),
     path('login/', views.obtain_auth_token,name='login'),
     path("<str:username>/verify/",activate,name='activate'),
-    path('change_password/', change_password,name='login'),
-    # path('forget_password/', views.forget_oassword,name='login'),
-
+    path('change_password/', change_password,name='login')
 
 ]
